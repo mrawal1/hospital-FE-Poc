@@ -1,4 +1,12 @@
-export const loginFields = [
+export interface LoginFieldConfig {
+  name: 'email' | 'password';
+  label: string;
+  type: string;
+  placeholder: string;
+  autoComplete: string;
+}
+
+export const loginFields: LoginFieldConfig[] = [
   {
     name: 'email',
     label: 'Email',

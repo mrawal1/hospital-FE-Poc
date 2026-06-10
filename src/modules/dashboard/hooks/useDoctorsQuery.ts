@@ -8,5 +8,6 @@ export function useDoctorsQuery() {
       const { data } = await getDoctors();
       return data;
     },
+    staleTime: 0,
   });
 }

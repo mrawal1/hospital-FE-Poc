@@ -1,6 +1,6 @@
 import TextField from '@shared/components/TextField';
 import { signupFields } from '../../../schema/signupFields';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { isAxiosError } from 'axios';
@@ -12,6 +12,7 @@ import {
 import { useSignupMutation } from '@modules/auth/hooks/useSignupMutation';
 
 function SignupPage() {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -27,8 +28,9 @@ function SignupPage() {
   const onSubmit = (values: SignupFormValues) => {
     signupMutation.mutate(
       { email: values.email, password: values.password },
-      { onSuccess: () => reset() },
-    );
+      
+      { onSuccess: () => { reset(); navigate('/dashboard'); } },)
+  
   };
 
   const serverError = signupMutation.isError
@@ -51,14 +53,14 @@ function SignupPage() {
           onSubmit={handleSubmit(onSubmit)}
           noValidate
         >
-          {signupFields.map((field: any) => (
+          {signupFields.map((field) => (
             <TextField
               key={field.name}
               label={field.label}
               type={field.type}
               placeholder={field.placeholder}
               autoComplete={field.autoComplete}
-              error={errors && typeof errors === 'object' && field.name in errors ? (errors as any)[field.name]?.message : undefined}
+              error={errors[field.name]?.message}
               {...register(field.name)}
             />
           ))}

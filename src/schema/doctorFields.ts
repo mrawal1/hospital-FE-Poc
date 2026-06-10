@@ -1,4 +1,11 @@
-export const doctorFields = [
+export interface DoctorFieldConfig {
+  name: 'name' | 'speciality' | 'email';
+  label: string;
+  type: string;
+  placeholder: string;
+}
+
+export const doctorFields: DoctorFieldConfig[] = [
   {
     name: 'name',
     label: 'Name',

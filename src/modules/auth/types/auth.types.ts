@@ -8,8 +8,8 @@ export interface AuthUser {
 export interface AuthState {
     user: AuthUser | null;
     token: string | null;
-    loading: boolean;
-    error: string | null;
+    login: (user: AuthUser) => void;
+    logout: () => void;
 }
 
 export interface SignupRequest {

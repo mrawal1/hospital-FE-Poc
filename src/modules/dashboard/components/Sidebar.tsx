@@ -1,32 +1,30 @@
 import React from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import './Sidebar.css';
 
-const Sidebar: React.FC = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
+export const Sidebar: React.FC = () => {
   return (
     <aside className="sidebar">
       <nav>
         <ul>
-          <li
-            className={location.pathname === '/dashboard' ? 'active' : ''}
-            onClick={() => navigate('/dashboard')}
-            style={{ cursor: 'pointer' }}
-          >
-            Dashboard
+          <li>
+            <NavLink
+              to="/dashboard"
+              className={({ isActive }) => isActive ? 'active' : ''}
+            >
+              Dashboard
+            </NavLink>
           </li>
-          <li
-            className={location.pathname.startsWith('/doctors') ? 'active' : ''}
-            onClick={() => navigate('/doctors')}
-            style={{ cursor: 'pointer' }}
-          >
-            Doctors
+          <li>
+            <NavLink
+              to="/doctors"
+              className={({ isActive }) => isActive ? 'active' : ''}
+            >
+              Doctors
+            </NavLink>
           </li>
         </ul>
       </nav>
     </aside>
   );
 };
-
-export default Sidebar;

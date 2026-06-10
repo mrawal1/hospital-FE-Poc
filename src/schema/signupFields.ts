@@ -1,4 +1,12 @@
-export const signupFields = [
+export interface SignupFieldConfig {
+  name: 'email' | 'password' | 'confirmPassword';
+  label: string;
+  type: string;
+  placeholder: string;
+  autoComplete: string;
+}
+
+export const signupFields: SignupFieldConfig[] = [
   {
     name: 'email',
     label: 'Email',

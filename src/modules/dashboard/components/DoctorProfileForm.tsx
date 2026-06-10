@@ -1,46 +1,68 @@
 
-import React, { useState } from 'react';
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { isAxiosError } from 'axios';
+import { useNavigate } from 'react-router-dom';
 import TextField from '@shared/components/TextField';
 import { doctorFields } from '../../../schema/doctorFields';
+import { doctorSchema, type DoctorFormValues } from '../validations/doctor.validation';
 import { useCreateDoctorMutation } from '../hooks/useCreateDoctorMutation';
 import './DoctorProfileForm.css';
 
-
 const DoctorProfileForm: React.FC = () => {
-  const [form, setForm] = useState({ name: '', speciality: '', email: '' });
+  const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<DoctorFormValues>({
+    resolver: zodResolver(doctorSchema),
+    defaultValues: { name: '', speciality: '', email: '' },
+  });
+
   const createDoctorMutation = useCreateDoctorMutation();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+  React.useEffect(() => {
+    if (createDoctorMutation.isSuccess) {
+      reset();
+      navigate('/doctors');
+    }
+  }, [createDoctorMutation.isSuccess, navigate, reset]);
+
+  const onSubmit = (values: DoctorFormValues) => {
+    createDoctorMutation.mutate(values);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    createDoctorMutation.mutate(form);
-  };
+  const serverError = createDoctorMutation.isError
+    ? isAxiosError(createDoctorMutation.error)
+      ? (createDoctorMutation.error.response?.data?.message ??
+        createDoctorMutation.error.message)
+      : 'Unexpected error. Please try again.'
+    : null;
 
   return (
     <section className="doctor-profile-form">
       <h2>Doctor Profile</h2>
-      <form onSubmit={handleSubmit}>
-        {doctorFields.map((field: any) => (
+      <form onSubmit={handleSubmit(onSubmit)} noValidate>
+        {doctorFields.map((field) => (
           <TextField
             key={field.name}
             label={field.label}
             type={field.type}
-            id={field.name}
-            name={field.name}
             placeholder={field.placeholder}
-            value={form && typeof form === 'object' && field.name in form ? (form as any)[field.name] : ''}
-            onChange={handleChange}
+            error={errors[field.name]?.message}
+            {...register(field.name)}
           />
         ))}
+        {serverError && (
+          <p role="alert" style={{ color: 'red' }}>{serverError}</p>
+        )}
         <button type="submit" disabled={createDoctorMutation.isPending}>
           {createDoctorMutation.isPending ? 'Saving...' : 'Save Profile'}
         </button>
       </form>
-      {createDoctorMutation.isSuccess && <p style={{color: 'green'}}>Doctor profile created!</p>}
-      {createDoctorMutation.isError && <p style={{color: 'red'}}>Error creating doctor profile.</p>}
     </section>
   );
 };

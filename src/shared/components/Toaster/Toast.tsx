@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
 import './Toast.css';
 
@@ -27,19 +27,21 @@ export function useToast() {
 export function ToastProvider({ children }: { children: ReactNode }) {
   const [toasts, setToasts] = useState<Toast[]>([]);
 
-  function showToast(message: string, type: ToastType) {
+  const showToast = useCallback((message: string, type: ToastType) => {
     const id = Math.random().toString(36).slice(2, 9);
     setToasts((prev) => [...prev, { id, message, type }]);
     setTimeout(() => setToasts((prev) => prev.filter((t) => t.id !== id)), 4000);
-  }
+  }, []);
 
-  // Register the showToast function globally for use outside React tree
-  setToastFn(showToast);
+  // Register the showToast function globally once after mount
+  useEffect(() => {
+    setToastFn(showToast);
+  }, [showToast]);
 
   return (
     <ToastContext.Provider value={{ showToast }}>
       {children}
-      <div className="toast-container">
+      <div className="toast-container" aria-live="assertive" aria-atomic="true">
         {toasts.map((t) => (
           <div key={t.id} className={`toast toast-${t.type}`}>{t.message}</div>
         ))}

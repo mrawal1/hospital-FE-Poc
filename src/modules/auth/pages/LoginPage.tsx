@@ -4,6 +4,7 @@ import { loginFields } from '../../../schema/loginFields';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { isAxiosError } from 'axios';
 
 
 import {
@@ -59,18 +60,23 @@ function LoginPage() {
           onSubmit={handleSubmit(onSubmit)}
           noValidate
         >
-          {loginFields.map((field: any) => (
+          {loginFields.map((field) => (
             <TextField
               key={field.name}
               label={field.label}
               type={field.type}
               placeholder={field.placeholder}
               autoComplete={field.autoComplete}
-              error={errors && typeof errors === 'object' && field.name in errors ? (errors as any)[field.name]?.message : undefined}
+              error={errors[field.name]?.message}
               {...register(field.name)}
             />
-          ))}
-          <button
+          ))}          {loginMutation.isError && (
+            <p role="alert" className="login-error">
+              {isAxiosError(loginMutation.error)
+                ? loginMutation.error.response?.data?.message ?? loginMutation.error.message
+                : 'Login failed. Please try again.'}
+            </p>
+          )}          <button
             type="submit"
             className="login-button"
             disabled={loginMutation.isPending}

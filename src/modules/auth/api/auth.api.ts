@@ -7,5 +7,3 @@ export const authApi = {
   login: (payload: LoginRequest) =>
     apiClient.post<LoginResponse>('/auth/login', payload),
 };
-
-export const login = authApi.login;

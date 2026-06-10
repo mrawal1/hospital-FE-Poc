@@ -1,6 +1,7 @@
-import Sidebar from '../components/Sidebar';
+import { Sidebar } from '../components/Sidebar';
 import { Outlet } from 'react-router-dom';
 import '../pages/DashboardPage.css';
+
 
 const DashboardLayout = () => (
   <div className="dashboard-container">
