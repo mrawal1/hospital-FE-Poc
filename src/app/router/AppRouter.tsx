@@ -1,5 +1,5 @@
 import { lazy } from 'react';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
 import RootLayout from './RootLayout';
 import { ProtectedRoute } from './ProtectedRoute';
 import { PublicOnlyRoute } from './PublicOnlyRoute';
@@ -16,12 +16,12 @@ const CreateDoctorPage = lazy(() => import('@modules/dashboard/pages/CreateDocto
 const RegisterPatientPage = lazy(() => import('@modules/patients/pages/RegisterPatientPage'));
 const PatientListPage = lazy(() => import('@modules/patients/pages/PatientListPage'));
 
-const router = createBrowserRouter([
+export const router = createBrowserRouter([
   {
     path: '/',
     element: <RootLayout />, // Main layout for nested routes
     children: [
-      { index: true, element: <LoginPage /> }, // Default route
+      { index: true, element: <Navigate to="/login" replace /> },
       {
         path: '',
         element: <PublicOnlyRoute />,

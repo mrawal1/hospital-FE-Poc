@@ -113,7 +113,7 @@ describe('PatientRegistrationForm', () => {
     vi.spyOn(useCreatePatientMutationModule, 'useCreatePatientMutation').mockReturnValue({
       ...baseMock,
       isPending: true,
-    } as ReturnType<typeof useCreatePatientMutationModule.useCreatePatientMutation>);
+    } as unknown as ReturnType<typeof useCreatePatientMutationModule.useCreatePatientMutation>);
     renderWithProviders(<PatientRegistrationForm />);
     const btn = screen.getByRole('button', { name: /registering/i });
     expect(btn).toBeDisabled();
@@ -124,7 +124,7 @@ describe('PatientRegistrationForm', () => {
       ...baseMock,
       isError: true,
       error: new Error('Server error'),
-    } as ReturnType<typeof useCreatePatientMutationModule.useCreatePatientMutation>);
+    } as unknown as ReturnType<typeof useCreatePatientMutationModule.useCreatePatientMutation>);
     renderWithProviders(<PatientRegistrationForm />);
     expect(screen.getByRole('alert')).toHaveTextContent('Unexpected error. Please try again.');
   });
