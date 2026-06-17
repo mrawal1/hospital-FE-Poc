@@ -48,5 +48,24 @@ interface Example { ... }
 **Acceptance Criteria**:
 - [ ] Given... When... Then...
 
-**Next Step**: Hand off to → **@coding-agent**
+**Next Step**: Hand off to → **@architect-agent** (for design) or **@coding-agent** (direct implementation)
 ```
+
+---
+
+## Workflow Chain
+
+```
+@lead-engineer (orchestrator)
+       ↓
+@requirement-agent ← YOU ARE HERE
+       ↓
+@architect-agent
+       ↓
+@coding-agent → @test-agent → @security-agent → @performance-agent
+       ↓
+@pr-review-agent → @git-agent → @cicd-agent
+```
+
+**Previous**: @lead-engineer (if orchestrated) or direct user request
+**Next**: @architect-agent for design review, then @coding-agent for implementation

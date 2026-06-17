@@ -71,6 +71,25 @@ npm run test -- --run
 **Next Step**: Hand off to → **@git-agent**
 ```
 
+---
+
+## Workflow Chain
+
+```
+@lead-engineer (orchestrator)
+       ↓
+@requirement-agent → @architect-agent → @coding-agent
+       ↓
+@test-agent → @security-agent → @performance-agent
+       ↓
+@pr-review-agent ← YOU ARE HERE
+       ↓
+@git-agent → @cicd-agent
+```
+
+**Previous**: @security-agent + @performance-agent (reviews)
+**Next**: @git-agent for version control operations
+
 ## Constraints
 
 - DO NOT approve with 🔴 Critical findings unresolved

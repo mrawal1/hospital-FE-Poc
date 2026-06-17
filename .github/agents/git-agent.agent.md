@@ -90,6 +90,27 @@ Before committing, verify:
 - [ ] Only feature-related files are staged
 - [ ] No `.env`, `dist/`, or `node_modules/` files staged
 
+---
+
+## Workflow Chain
+
+```
+@lead-engineer (orchestrator)
+       ↓
+@requirement-agent → @architect-agent → @coding-agent
+       ↓
+@test-agent → @security-agent → @performance-agent
+       ↓
+@pr-review-agent
+       ↓
+@git-agent ← YOU ARE HERE
+       ↓
+@cicd-agent → @release-agent (for releases)
+```
+
+**Previous**: @pr-review-agent (must be approved)
+**Next**: @cicd-agent for pipeline verification, @release-agent for version releases
+
 ## Constraints
 
 - DO NOT push to `main` directly

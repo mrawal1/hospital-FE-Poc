@@ -73,3 +73,26 @@ jobs:
 
 **Workflow Complete**: Loop back to → **@requirement-agent** for next feature
 ```
+
+---
+
+## Workflow Chain
+
+```
+@lead-engineer (orchestrator)
+       ↓
+@requirement-agent → @architect-agent → @coding-agent
+       ↓
+@test-agent → @security-agent → @performance-agent
+       ↓
+@pr-review-agent → @git-agent
+       ↓
+@cicd-agent ← YOU ARE HERE
+       ↓
+@release-agent (for version releases)
+       ↓
+Loop back to @requirement-agent for next feature
+```
+
+**Previous**: @git-agent (code committed)
+**Next**: @release-agent for version releases, or @requirement-agent for next feature

@@ -71,5 +71,24 @@ npm run test -- --run
 
 **All Tests**: ✅ Passing
 
-**Next Step**: Hand off to → **@pr-review-agent**
+**Next Step**: Hand off to → **@security-agent** (security review) then **@pr-review-agent**
 ```
+
+---
+
+## Workflow Chain
+
+```
+@lead-engineer (orchestrator)
+       ↓
+@requirement-agent → @architect-agent → @coding-agent
+       ↓
+@test-agent ← YOU ARE HERE
+       ↓
+@security-agent → @performance-agent
+       ↓
+@pr-review-agent → @git-agent → @cicd-agent
+```
+
+**Previous**: @coding-agent (implementation)
+**Next**: @security-agent for security review, then @performance-agent

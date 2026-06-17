@@ -51,3 +51,22 @@ You are the **Coding Agent** — the second agent in the Hospital FE PoC workflo
 
 **Next Step**: Hand off to → **@test-agent**
 ```
+
+---
+
+## Workflow Chain
+
+```
+@lead-engineer (orchestrator)
+       ↓
+@requirement-agent → @architect-agent
+       ↓
+@coding-agent ← YOU ARE HERE
+       ↓
+@test-agent → @security-agent → @performance-agent
+       ↓
+@pr-review-agent → @git-agent → @cicd-agent
+```
+
+**Previous**: @architect-agent (design) or @requirement-agent (specs)
+**Next**: @test-agent for test generation
